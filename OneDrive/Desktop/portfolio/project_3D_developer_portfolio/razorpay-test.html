@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Test</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Razorpay Payment Test</h1>
+    <button id="payButton">Pay ₹100 - Buy Me Coffee</button>
+
+    <script>
+        document.getElementById('payButton').onclick = function(e) {
+            var options = {
+                "key": "rzp_test_SLbQ4FbMJYkxov",
+                "amount": "10000", // Amount in paise (₹100)
+                "currency": "INR",
+                "name": "Harsh Omar",
+                "description": "Buy Me a Coffee Test",
+                "image": "https://via.placeholder.com/100",
+                "handler": function (response) {
+                    alert("Payment Successful!");
+                    console.log("Payment ID: " + response.razorpay_payment_id);
+                },
+                "prefill": {
+                    "name": "Test User",
+                    "email": "test@example.com",
+                    "contact": "9999999999"
+                },
+                "notes": {
+                    "purpose": "Coffee purchase test"
+                },
+                "theme": {
+                    "color": "#D2691E"
+                }
+            };
+            
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                alert("Payment Failed: " + response.error.description);
+                console.log(response.error);
+            });
+            
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+
+    <div style="margin-top: 20px;">
+        <h3>Test Card Details:</h3>
+        <p><strong>Card Number:</strong> 4111 1111 1111 1111</p>
+        <p><strong>Expiry:</strong> Any future date</p>
+        <p><strong>CVV:</strong> Any 3 digits</p>
+        <p><strong>Name:</strong> Any name</p>
+        
+        <h3>Test UPI:</h3>
+        <p><strong>UPI ID:</strong> success@razorpay</p>
+    </div>
+</body>
+</html>
